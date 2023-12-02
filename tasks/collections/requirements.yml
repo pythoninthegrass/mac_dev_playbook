@@ -1,7 +1,10 @@
+# code: language=ansible
+
 ---
 roles:
   - name: elliotweiser.osx-command-line-tools
   - name: geerlingguy.dotfiles
 
 collections:
+  - name: community.general
   - name: geerlingguy.mac

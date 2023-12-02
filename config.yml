@@ -1,0 +1,573 @@
+# code: language=ansible
+
+---
+downloads: ~/.ansible-downloads/
+
+configure_dotfiles: true
+configure_terminal: true
+configure_osx: true
+
+configure_dock: true
+dockitems_remove: []
+  - "LaunchPad"
+  - "Safari"
+  - "Messages"
+  - "Maps"
+  - "Photos"
+  - "FaceTime"
+  - "Contacts"
+  - "Reminders"
+  - "Notes"
+  - "TV"
+  - "Music"
+  - "Podcasts"
+  - "News"
+dockitems_persist: []
+  - name: "iTerm"
+    path: "/Applications/iTerm.app"
+    pos: 1
+  - name: "Mail"
+    path: "/Applications/Mail.app"
+    pos: 2
+  - name: "Firefox"
+    path: "/Applications/Firefox.app"
+    pos: 3
+  - name: "Slack"
+    path: "/Applications/Slack.app"
+    pos: 4
+  - name: "Typora"
+    path: "/Applications/Typora.app"
+    pos: 5
+  - name: "UpNote"
+    path: "/Applications/UpNote.app"
+    pos: 6
+  - name: "Visual Studio Code"
+    path: "/Applications/Visual Studio Code.app"
+    pos: 7
+  - name: "GitKraken"
+    path: "/Applications/GitKraken.app"
+    pos: 8
+  - name: "TablePlus"
+    path: "/Applications/TablePlus.app"
+    pos: 9
+  - name: "DevUtils"
+    path: "/Applications/DevUtils.app"
+    pos: 10
+  - name: "Remote Desktop"
+    path: "/Applications/Remote Desktop.app"
+    pos: 11
+  - name: "System Preferences"
+    path: "/Applications/System Preferences.app"
+    pos: 12
+
+configure_sudoers: false
+sudoers_custom_config: ''
+# Example:
+# sudoers_custom_config: |
+#   # Allow users in admin group to use sudo with no password.
+#   %admin ALL=(ALL) NOPASSWD: ALL
+
+dotfiles_repo: https://gist.github.com/pythoninthegrass/883d0554915579788e4f81c2ff378c34
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_local_destination: ~/git/bashrc
+dotfiles_files:
+  - .bashrc
+  - .gitignore
+  - .gitconfig
+
+homebrew_installed_packages:
+  - afflib
+  - ansible-lint
+  - ansible
+  - ant
+  - aom
+  - arm-linux-gnueabihf-binutils
+  - arp-scan
+  - arping
+  - autoconf
+  - automake
+  - aws-sam-cli
+  - awscli
+  - bash-completion
+  - bash
+  - bat
+  - bc
+  - bdw-gc
+  - berkeley-db
+  - bind
+  - binutils
+  - bison
+  - bitwarden-cli
+  - boost
+  - brotli
+  - c-ares
+  - ca-certificates
+  - caddy
+  - cairo
+  - cdrtools
+  - cheat
+  - checkbashisms
+  - cirrus
+  - cjson
+  - cmake
+  - cmctl
+  - cmocka
+  - cocoapods
+  - code-minimap
+  - coreutils
+  - cpanminus
+  - crosstool-ng
+  - cue-lang/tap/cue
+  - curl
+  - dav1d
+  - devspace
+  - diffutils
+  - dive
+  - docbook-xsl
+  - docbook
+  - docker-slim
+  - dockutil
+  - dopplerhq/cli/doppler
+  - double-conversion
+  - doxygen
+  - ecm
+  - ed
+  - emacs
+  - entr
+  - exiftool
+  - fdupes
+  - ffmpeg
+  - file-formula
+  - findutils
+  - fio
+  - flac
+  - flex
+  - flyctl
+  - fmt
+  - folly
+  - fontconfig
+  - freetype
+  - frei0r
+  - fribidi
+  - fzf
+  - gawk
+  - gcc
+  - gdbm
+  - geckodriver
+  - gettext
+  - gflags
+  - gh
+  - ghostscript
+  - giflib
+  - git-delta
+  - git-filter-repo
+  - git
+  - gitleaks
+  - glib
+  - glog
+  - gmp
+  - gnu-indent
+  - gnu-sed
+  - gnu-tar
+  - gnu-which
+  - gnupg
+  - gnutls
+  - go-task
+  - gobject-introspection
+  - golangci-lint
+  - gotop
+  - gpatch
+  - graphite2
+  - grep
+  - gstreamer
+  - guile
+  - gzip
+  - hardlink
+  - harfbuzz
+  - haskell-stack
+  - helm
+  - help2man
+  - htop
+  - httpie
+  - hugo
+  - imagemagick
+  - imath
+  - ipcalc
+  - iperf
+  - itstool
+  - jansson
+  - jbig2dec
+  - jemalloc
+  - jpeg-xl
+  - jpeg
+  - jq
+  - just
+  - k3d
+  - k9s
+  - kompose
+  - kubernetes-cli
+  - kustomize
+  - lame
+  - lazydocker
+  - ldns
+  - leptonica
+  - less
+  - libass
+  - libassuan
+  - libbluray
+  - libcbor
+  - libde265
+  - libev
+  - libevent
+  - libewf
+  - libffi
+  - libfido2
+  - libgcrypt
+  - libgpg-error
+  - libheif
+  - libidn
+  - libidn2
+  - libksba
+  - liblqr
+  - libmagic
+  - libnet
+  - libnghttp2
+  - libogg
+  - libomp
+  - libpcap
+  - libpng
+  - libpthread-stubs
+  - libressl
+  - librist
+  - libsamplerate
+  - libslirp
+  - libsndfile
+  - libsodium
+  - libsoxr
+  - libssh
+  - libssh2
+  - libtasn1
+  - libtiff
+  - libtool
+  - libunistring
+  - libusb
+  - libuv
+  - libvidstab
+  - libvmaf
+  - libvorbis
+  - libvpx
+  - libx11
+  - libxau
+  - libxcb
+  - libxdmcp
+  - libxext
+  - libxml2
+  - libxrender
+  - libxslt
+  - libyaml
+  - libzip
+  - little-cms2
+  - llvm
+  - lua
+  - lz4
+  - lzo
+  - m4
+  - magic-wormhole
+  - make
+  - mas
+  - mbedtls
+  - meson
+  - minikube
+  - mosh
+  - mpdecimal
+  - mpfr
+  - mtr
+  - mycli
+  - mysql
+  - n
+  - nano
+  - ncdu
+  - neofetch
+  - neovim
+  - nettle
+  - nghttp2
+  - nginx
+  - ninja
+  - nmap
+  - node
+  - npth
+  - oniguruma
+  - opencore-amr
+  - openexr
+  - openjpeg
+  - openssh
+  - openssl@3
+  - opus
+  - ossp-uuid
+  - p11-kit
+  - p7zip
+  - packer
+  - pandoc
+  - pcre
+  - pcre2
+  - perl
+  - pidof
+  - pigz
+  - pinentry
+  - pipx
+  - pixman
+  - pkg-config
+  - popt
+  - portaudio
+  - postgresql@14
+  - pre-commit
+  - prettier
+  - progress
+  - protobuf
+  - pstree
+  - pulumi
+  - pv
+  - pyenv
+  - pyflow
+  - python-tabulate
+  - python-tk@3.9
+  - python@3.11
+  - qemu
+  - qt@5
+  - rav1e
+  - rbenv
+  - readline
+  - remake
+  - rename
+  - ripgrep
+  - rsync
+  - rtmpdump
+  - rubberband
+  - ruby-build
+  - ruby-install
+  - s3cmd
+  - sbt
+  - screen
+  - screenresolution
+  - sdl2
+  - semgrep
+  - shared-mime-info
+  - shellcheck
+  - shfmt
+  - six
+  - snappy
+  - speex
+  - sphinx-doc
+  - spice-gtk
+  - srt
+  - ssh-copy-id
+  - sshpass
+  - step
+  - tart
+  - terraform
+  - tesseract
+  - testdisk
+  - tflint
+  - tfsec
+  - thefuck
+  - theora
+  - tilt
+  - tldr
+  - topgrade
+  - tree
+  - unbound
+  - unixodbc
+  - unzip
+  - up
+  - vde
+  - vim
+  - watch
+  - watchman
+  - wdiff
+  - webp
+  - wget
+  - x264
+  - x265
+  - xmlto
+  - xorgproto
+  - xvid
+  - xxhash
+  - xz
+  - yt-dlp
+  - zeromq
+  - zimg
+  - zlib
+  - zstd
+  - zsync
+  - eth-p/software/bat-extras-batdiff
+  - eth-p/software/bat-extras-batgrep
+  - eth-p/software/bat-extras-batman
+  - eth-p/software/bat-extras-batpipe
+  - eth-p/software/bat-extras-batwatch
+  - eth-p/software/bat-extras-prettybat
+  - eth-p/software/bat-extras
+  - goreleaser/tap/goreleaser
+  - snyk/tap/snyk
+  - trufflesecurity/trufflehog/trufflehog
+
+homebrew_taps:
+  - abridoux/formulae
+  - aws/tap
+  - bell-sw/liberica
+  - buo/cask-upgrade
+  - cirruslabs/cli
+  - cue-lang/tap
+  - d12frosted/emacs-plus
+  - eth-p/software
+  - goreleaser/tap
+  - heroku/brew
+  - homebrew/bundle
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
+  - homebrew/services
+  - jamf/tap
+  - mike-engel/jwt-cli
+  - raggi/ale
+  - snyk/tap
+  - timsutton/formulae
+  - trufflesecurity/trufflehog
+  - zaquestion/tap
+
+homebrew_cask_appdir: /Applications
+homebrew_cask_apps:
+  - alacritty
+  - alfred
+  - altserver
+  - android-file-transfer
+  - android-platform-tools
+  - appcleaner
+  - autodmg
+  - basictex
+  - cscreen
+  - dash
+  - devutils
+  - firefox
+  - flux
+  - flycut
+  - font-fira-code-nerd-font
+  - font-fira-mono-nerd-font
+  - font-hack-nerd-font
+  - font-meslo-lg-nerd-font
+  - fsmonitor
+  - gdisk
+  - github
+  - gitkraken
+  - google-cloud-sdk
+  - google-drive
+  - iina
+  - imageoptim
+  - iterm2
+  - kap
+  - keycastr
+  - liberica-jdk8-full
+  - meetingbar
+  - meld
+  - microsoft-auto-update
+  - microsoft-excel
+  - microsoft-powerpoint
+  - microsoft-word
+  - mongodb-compass
+  - multipass
+  - ngrok
+  - obsidian
+  - omnidisksweeper
+  - orbstack
+  - packages
+  - paw
+  - proxyman
+  - qlmarkdown
+  - qlvideo
+  - qsync-client
+  - quicklook-csv
+  - quicklook-json
+  - rustdesk
+  - session-manager-plugin
+  - slack
+  - spotify
+  - steam
+  - suspicious-package
+  - tableplus
+  - teamviewer
+  - the-unarchiver
+  - ticktick
+  - topnotch
+  - typora
+  - utm
+  - visual-studio-code
+  - vlc
+  - warp
+  - webpquicklook
+  - xquartz
+  - zoom
+
+mas_email: ""
+mas_password: ""
+mas_upgrade_all_apps: true
+mas_installed_apps:
+  - { id: 937984704, name: "Amphetamine" }
+  - { id: 1037126344, name: "Apple Configurator" }
+  - { id: 641027709, name: "Color Picker" }
+  - { id: 425264550, name: "Disk Speed Test" }
+  - { id: 1452453066, name: "Hidden Bar" }
+  - { id: 409183694, name: "Keynote" }
+  - { id: 441258766, name: "Magnet" }
+  - { id: 1295203466, name: "Microsoft Remote Desktop" }
+  - { id: 409203825, name: "Numbers" }
+  - { id: 409201541, name: "Pages" }
+  - { id: 885120167, name: "Particulars" }
+  - { id: 1289583905, name: "Pixelmator Pro" }
+  - { id: 1318160354, name: "Reigns: Her Majesty" }
+  - { id: 409907375, name: "Remote Desktop" }
+  - { id: 1073245945, name: "StatsCenter" }
+  - { id: 1528890965, name: "TextSniper" }
+  - { id: 1398373917, name: "UpNote" }
+  - { id: 497799835, name: "Xcode" }
+
+osx_script: "~/.osx --no-restart"
+
+pip_packages:
+  - { name: "ansible-core", version: "2.14.4", state: "present" }
+  - { name: "ansible-lint", version: "6.14.3", state: "present" }
+  - { name: "ansible", version: "7.3.0", state: "present" }
+  - { name: "appnope", version: "0.1.3", state: "present" }
+  - { name: "asttokens", version: "2.1.0", state: "present" }
+  - { name: "backcall", version: "0.2.0", state: "present" }
+  - { name: "colorama", version: "0.4.6", state: "present" }
+  - { name: "commonmark", version: "0.9.1", state: "present" }
+  - { name: "cryptography", version: "40.0.1", state: "present" }
+  - { name: "filelock", version: "3.10.7", state: "present" }
+  - { name: "decorator", version: "5.1.1", state: "present" }
+  - { name: "executing", version: "1.2.0", state: "present" }
+  - { name: "icecream", version: "2.1.3", state: "present" }
+  - { name: "ipython", version: "8.11.0", state: "present" }
+  - { name: "jedi", version: "0.18.1", state: "present" }
+  - { name: "jinja2", version: "3.1.2", state: "present" }
+  - { name: "matplotlib-inline", version: "0.1.6", state: "present" }
+  - { name: "numpy", version: "1.23.4", state: "present" }
+  - { name: "pandas", version: "1.5.1", state: "present" }
+  - { name: "parso", version: "0.8.3", state: "present" }
+  - { name: "pathvalidate", version: "2.5.2", state: "present" }
+  - { name: "pexpect", version: "4.8.0", state: "present" }
+  - { name: "pickleshare", version: "0.7.5", state: "present" }
+  - { name: "pipx", version: "1.2.0", state: "present" }
+  - { name: "prompt-toolkit", version: "3.0.32", state: "present" }
+  - { name: "ptyprocess", version: "0.7.0", state: "present" }
+  - { name: "pure-eval", version: "0.2.2", state: "present" }
+  - { name: "pygments", version: "2.13.0", state: "present" }
+  - { name: "python-dateutil", version: "2.8.2", state: "present" }
+  - { name: "pytz", version: "2022.6", state: "present" }
+  - { name: "pyyaml", version: "6.0", state: "present" }
+  - { name: "rich", version: "13.3.3", state: "present" }
+  - { name: "six", version: "1.16.0", state: "present" }
+  - { name: "stack-data", version: "0.6.0", state: "present" }
+  - { name: "traitlets", version: "5.5.0", state: "present" }
+  - { name: "wcwidth", version: "0.2.5", state: "present" }
+  - { name: "yamllint", version: "1.30.0", state: "present" }
+
+# Glob pattern to ansible task files to run after all other tasks are finished.
+post_provision_tasks: []
