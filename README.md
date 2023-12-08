@@ -9,6 +9,7 @@ Automate mac dev environment setup with ansible
 # install dependencies
 make install
 python -m pip install ansible ansible-lint
+ansible-galaxy install -r requirements.yml
 
 # run playbook
 # * become (sudo)
@@ -16,7 +17,7 @@ python -m pip install ansible ansible-lint
 # * tags: foo,bar
 # * verbose
 # * limit to group/single host
-ansible-playbook tasks/pkg.yml -b -K --<tags|skip-tags> qa -vvv --limit 'control_plane:control-plane@orb'
+ansible-playbook main.yml -b -K --tags qa -vvv --limit 'servers'
 ```
 
 ## TODO
