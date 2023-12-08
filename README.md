@@ -15,7 +15,8 @@ python -m pip install ansible ansible-lint
 # * askpass
 # * tags: foo,bar
 # * verbose
-ansible-playbook main.yml -b -K --<tags|skip-tags> homebrew -vvv
+# * limit to group/single host
+ansible-playbook tasks/pkg.yml -b -K --<tags|skip-tags> qa -vvv --limit 'control_plane:control-plane@orb'
 ```
 
 ## TODO
