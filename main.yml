@@ -2,8 +2,12 @@
 
 ---
 - name: Configure host
-  hosts: all
+  connection: local
+  hosts: localhost
+  gather_facts: true
   vars:
+    should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
+    upgrade_homebrew: false
     mas_email: '{{ lookup("env", "MAS_EMAIL") }}'
     mas_password: '{{ lookup("env", "MAS_PASSWORD") }}'
   vars_files:
@@ -13,37 +17,92 @@
       include_vars: "{{ item }}"
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
-      tags: ['always']
+      tags: qa
+
+    - name: Set homebrew path
+      ansible.builtin.set_fact:
+        homebrew_path: /usr/local/bin/brew
+      when: ansible_architecture != "arm64"
+      become: true
+
+    - name: Set homebrew path
+      ansible.builtin.set_fact:
+        homebrew_path: /opt/homebrew/bin
+      when: ansible_architecture == "arm64"
+      become: true
+
+    - name: Ensuring homebrew is installed
+      ansible.builtin.stat:
+        path: "{{ homebrew_path }}"
+      register: homebrew_check
+      become: true
+
+    - name: Fail if homebrew is not installed and install_homebrew_if_missing is false
+      ansible.builtin.fail:
+        msg: Homebrew is missing... Install from http://brew.sh/
+      when:
+        - not homebrew_check.stat.exists
+        - not install_homebrew_if_missing
+
+    - name: Installing homebrew
+      ansible.builtin.shell: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      when:
+        - not homebrew_check.stat.exists
+        - install_homebrew_if_missing
   roles:
     - role: elliotweiser.osx-command-line-tools
-    - role: geerlingguy.mac.homebrew
-      tags: ['homebrew']
+    # TODO: qa
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
-      tags: ['dotfiles']
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      tags: dotfiles
     - role: geerlingguy.mac.mas
       when: mas_installed_apps or mas_installed_app_ids
-      tags: ['mas']
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      tags: mas
     - role: geerlingguy.mac.dock
       when: configure_dock
-      tags: ['dock']
+      become: true
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      tags: dock
   tasks:
-    - import_tasks: tasks/sudoers.yml
-      when: configure_sudoers
-      tags: ['sudoers']
-
-    - import_tasks: tasks/osx.yml
-      when: configure_osx
-      tags: ['osx']
-
-    - import_tasks: tasks/extra-packages.yml
-      tags: ['extra-packages']
-
-    - name: Run post-provision task files in a block.
-      tags: ['post']
+    - name: Apply macos homebrew tasks
+      when: ansible_os_family == "Darwin"
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
       block:
-        - name: Run configured post-provision ansible task files.
-          include_tasks: "{{ outer_item }}"
-          loop_control:
-            loop_var: outer_item
-          with_fileglob: "{{ post_provision_tasks | default(omit) }}"
+        - name: Installing homebrew taps
+          community.general.homebrew_tap:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_taps }}"
+
+        - name: Upgrade homebrew
+          community.general.homebrew:
+            update_homebrew: "{{ upgrade_homebrew }}"
+
+        - name: Install homebrew formulae
+          community.general.homebrew:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_installed_packages }}"
+
+        - name: Install homebrew casks
+          community.general.homebrew_cask:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_cask_apps }}"
+
+  handlers:
+    - name: Clear homebrew cache
+      community.general.homebrew:
+        name: "*"
+        state: latest
+        update_homebrew: true
+        upgrade_all: true
+      become: true
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      listen: "homebrew cleanup"

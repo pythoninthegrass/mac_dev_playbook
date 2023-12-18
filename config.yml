@@ -3,62 +3,82 @@
 ---
 downloads: ~/.ansible-downloads/
 
-configure_dotfiles: true
-configure_terminal: true
-configure_osx: true
+configure_dotfiles: false
+configure_terminal: false
+configure_osx: false
 
 configure_dock: true
 dockitems_remove:
-  - "LaunchPad"
-  - "Safari"
-  - "Messages"
-  - "Maps"
-  - "Photos"
-  - "FaceTime"
+  - "App Store"
+  - "Calendar"
   - "Contacts"
-  - "Reminders"
-  - "Notes"
-  - "TV"
+  - "FaceTime"
+  - "Freeform"
+  - "Launchpad"
+  - "Mail"
+  - "Maps"
+  - "Messages"
   - "Music"
-  - "Podcasts"
   - "News"
+  - "Notes"
+  - "Photos"
+  - "Podcasts"
+  - "Reminders"
+  - "Safari"
+  - "System Preferences"
+  - "TV"
 dockitems_persist:
+  - name: "App Store"
+    path: "/Applications/App Store.app"
+    pos: 1
   - name: "iTerm"
     path: "/Applications/iTerm.app"
-    pos: 1
-  - name: "Mail"
-    path: "/Applications/Mail.app"
     pos: 2
+  - name: "Microsoft Outlook"
+    path: "/Applications/Microsoft Outlook.app"
+    pos: 3
   - name: "Firefox"
     path: "/Applications/Firefox.app"
-    pos: 3
+    pos: 4
   - name: "Slack"
     path: "/Applications/Slack.app"
-    pos: 4
+    pos: 5
   - name: "Typora"
     path: "/Applications/Typora.app"
-    pos: 5
+    pos: 6
   - name: "UpNote"
     path: "/Applications/UpNote.app"
-    pos: 6
+    pos: 7
   - name: "Visual Studio Code"
     path: "/Applications/Visual Studio Code.app"
-    pos: 7
+    pos: 8
   - name: "GitKraken"
     path: "/Applications/GitKraken.app"
-    pos: 8
-  - name: "TablePlus"
-    path: "/Applications/TablePlus.app"
     pos: 9
   - name: "DevUtils"
     path: "/Applications/DevUtils.app"
     pos: 10
+  - name: "TablePlus"
+    path: "/Applications/TablePlus.app"
+    pos: 11
+  - name: "MongoDB Compass"
+    path: "/Applications/MongoDB Compass.app"
+    pos: 12
+  - name: "RedisInsight"
+    path: "/Applications/RedisInsight.app"
+    pos: 13
   - name: "Remote Desktop"
     path: "/Applications/Remote Desktop.app"
-    pos: 11
+    pos: 14
+  - name: "TickTick"
+    path: "/Applications/TickTick.app"
+    pos: 15
+  - name: "Calendar"
+    path: "/Applications/Calendar.app"
+    pos: 16
   - name: "System Preferences"
     path: "/Applications/System Preferences.app"
-    pos: 12
+    pos: 17
 
 configure_sudoers: false
 sudoers_custom_config: ''
@@ -75,10 +95,31 @@ dotfiles_files:
   - .gitignore
   - .gitconfig
 
+homebrew_taps:
+  - abridoux/formulae
+  - aws/tap
+  - bell-sw/liberica
+  - buo/cask-upgrade
+  - cirruslabs/cli
+  - cue-lang/tap
+  - d12frosted/emacs-plus
+  - eth-p/software
+  - goreleaser/tap
+  - heroku/brew
+  - homebrew/bundle
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
+  - homebrew/services
+  - jamf/tap
+  - mike-engel/jwt-cli
+  - raggi/ale
+  - snyk/tap
+  - timsutton/formulae
+  - trufflesecurity/trufflehog
+  - zaquestion/tap
+
 homebrew_installed_packages:
   - afflib
-  - ansible-lint
-  - ansible
   - ant
   - aom
   - arm-linux-gnueabihf-binutils
@@ -410,29 +451,6 @@ homebrew_installed_packages:
   - snyk/tap/snyk
   - trufflesecurity/trufflehog/trufflehog
 
-homebrew_taps:
-  - abridoux/formulae
-  - aws/tap
-  - bell-sw/liberica
-  - buo/cask-upgrade
-  - cirruslabs/cli
-  - cue-lang/tap
-  - d12frosted/emacs-plus
-  - eth-p/software
-  - goreleaser/tap
-  - heroku/brew
-  - homebrew/bundle
-  - homebrew/cask-fonts
-  - homebrew/cask-versions
-  - homebrew/services
-  - jamf/tap
-  - mike-engel/jwt-cli
-  - raggi/ale
-  - snyk/tap
-  - timsutton/formulae
-  - trufflesecurity/trufflehog
-  - zaquestion/tap
-
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - alacritty
@@ -459,6 +477,7 @@ homebrew_cask_apps:
   - gitkraken
   - google-cloud-sdk
   - google-drive
+  - httpie
   - iina
   - imageoptim
   - iterm2
@@ -478,21 +497,18 @@ homebrew_cask_apps:
   - omnidisksweeper
   - orbstack
   - packages
-  - paw
   - proxyman
   - qlmarkdown
   - qlvideo
   - qsync-client
   - quicklook-csv
   - quicklook-json
+  - redisinsight
   - rustdesk
   - session-manager-plugin
   - slack
-  - spotify
-  - steam
   - suspicious-package
   - tableplus
-  - teamviewer
   - the-unarchiver
   - ticktick
   - topnotch
@@ -505,14 +521,12 @@ homebrew_cask_apps:
   - xquartz
   - zoom
 
-mas_email: ""
-mas_password: ""
 mas_upgrade_all_apps: true
 mas_installed_apps:
   - 937984704   # Amphetamine
   - 1037126344  # Apple Configurator
+  - 425264550   # Blackmagic Disk Speed Test
   - 641027709   # Color Picker
-  - 425264550   # Disk Speed Test
   - 1452453066  # Hidden Bar
   - 409183694   # Keynote
   - 441258766   # Magnet
