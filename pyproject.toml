@@ -8,8 +8,8 @@ license = "Unlicense"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-ansible = "^7.2.0"
-ansible-lint = { version = "^6.9.0", markers = "platform_system != 'Windows'" }
+ansible = "^7.7.0"
+ansible-lint = { version = "^6.22.1", markers = "platform_system != 'Windows'" }
 
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.3.2"
