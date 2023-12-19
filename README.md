@@ -8,7 +8,6 @@ Automate mac dev environment setup with ansible
 ```bash
 # install dependencies
 make install
-python -m pip install ansible ansible-lint
 ansible-galaxy install -r requirements.yml
 
 # run playbook
