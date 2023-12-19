@@ -24,8 +24,17 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
-all: help brew python ansible shellrc install
+all: help xcode brew python ansible shellrc install
 .PHONY: all
+
+xcode: ## install xcode
+	if [ -d "/Library/Developer/CommandLineTools" ]; then \
+		echo "${YELLOW}Command line tools are already installed...${RESET}"; \
+	else \
+		echo "${YELLOW}Installing xcode command line tools...${RESET}"; \
+		xcode-select --install; \
+	fi && \
+	sudo xcodebuild -license accept
 
 brew: ## install brew
 	@echo "${GREEN}Installing brew...${RESET}"
@@ -42,6 +51,8 @@ ansible: python ## install ansible
 	@echo "${GREEN}Installing ansible...${RESET}"
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install ansible ansible-lint
+	sudo touch /var/log/ansible.log
+	sudo chmod 666 /var/log/ansible.log
 
 shellrc: ## append shellrc
 	@echo "${YELLOW}Appending shellrc...${RESET}"
@@ -56,7 +67,7 @@ shellrc: ## append shellrc
 	fi
 	@echo "${GREEN}Please restart your shell...${RESET}"
 
-install: brew python ansible shellrc ## install ansible dependencies
+install: xcode brew python ansible shellrc ## install ansible dependencies
 	@echo "${GREEN}Installing ansible dependencies...${RESET}"
 
 help: ## show this help
