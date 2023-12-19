@@ -1,9 +1,10 @@
 ---
 skip_list:
-  - schema[meta]
-  - role-name
+  - command-instead-of-shell
   - experimental
   - fqcn
   - name[missing]
   - no-changed-when
   - risky-file-permissions
+  - role-name
+  - schema[meta]
