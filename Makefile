@@ -24,7 +24,7 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
-all: help brew python ansible install
+all: help brew python ansible shellrc install
 .PHONY: all
 
 brew: ## install brew
@@ -43,7 +43,20 @@ ansible: python ## install ansible
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install ansible ansible-lint
 
-install: brew python ansible ## install ansible dependencies
+shellrc: ## append shellrc
+	@echo "${YELLOW}Appending shellrc...${RESET}"
+	if [ "$(shell echo $$SHELL)" = "/bin/zsh" ]; then \
+		cp ~/.zshrc ~/.zshrc_`date +%Y%m%d%H%M%S`.bak; \
+		echo 'export PATH="$(BREW):$(PIP):$$PATH"' > ~/.zshrc; \
+		echo 'eval "$$(brew shellenv)"' >> ~/.zshrc; \
+	else \
+		cp ~/.bashrc ~/.bashrc_`date +%Y%m%d%H%M%S`.bak; \
+		echo 'export PATH="$(BREW):$(PIP):$$PATH"' > ~/.bashrc; \
+		echo 'eval "$$(brew shellenv)"' >> ~/.bashrc; \
+	fi
+	@echo "${GREEN}Please restart your shell...${RESET}"
+
+install: brew python ansible shellrc ## install ansible dependencies
 	@echo "${GREEN}Installing ansible dependencies...${RESET}"
 
 help: ## show this help
