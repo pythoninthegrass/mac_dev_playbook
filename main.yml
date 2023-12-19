@@ -16,6 +16,7 @@
       include_vars: "{{ item }}"
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
+      tags: ['always']
 
     - name: Get running ansible user
       ansible.builtin.set_fact:
@@ -23,16 +24,19 @@
         home_dir: "{{ lookup('env', 'HOME') }}"
         work_dir: "{{ playbook_dir | dirname }}"
         cacheable: true
+      tags: ['always']
 
     - name: Top-level directory in project
       ansible.builtin.shell: |
         git rev-parse --show-toplevel
       ignore_errors: true
       register: tld
+      tags: ['always']
 
     - name: Set tld stdout fact
       ansible.builtin.set_fact:
         tld: "{{ tld.stdout | default(ansible_env.CWD) }}"
+      tags: ['always']
 
     - name: Get brew prefix
       ansible.builtin.shell: brew --prefix
@@ -147,7 +151,7 @@
 
         - name: Setup git
           include_tasks: "{{ playbook_dir }}/tasks/git.yml"
-          tags: git
+          tags: ['git']
 
         - name: Setup starship prompt
           include_tasks: "{{ playbook_dir }}/tasks/starship.yml"
@@ -156,6 +160,10 @@
         - name: Install runtimes
           include_tasks: "{{ playbook_dir }}/tasks/runtimes.yml"
           tags: runtimes
+
+        - name: Set wallpaper for all desktops
+          include_tasks: "{{ playbook_dir }}/tasks/wallpaper.yml"
+          tags: wallpaper
 
   handlers:
     - name: Clear homebrew cache

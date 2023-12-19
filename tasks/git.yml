@@ -9,7 +9,7 @@
   loop: "{{ git_user }}"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add switch alias to ~/.gitconfig
   community.general.git_config:
@@ -18,7 +18,7 @@
     value: "!legit switch"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add sync alias to ~/.gitconfig
   community.general.git_config:
@@ -35,7 +35,7 @@
     value: "!legit publish"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add unpublish alias to ~/.gitconfig
   community.general.git_config:
@@ -44,7 +44,7 @@
     value: "!legit unpublish"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add undo alias to ~/.gitconfig
   community.general.git_config:
@@ -53,7 +53,7 @@
     value: "!legit undo"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add branches alias to ~/.gitconfig
   community.general.git_config:
@@ -62,7 +62,7 @@
     value: "!legit branches"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add parent alias to ~/.gitconfig
   community.general.git_config:
@@ -71,7 +71,7 @@
     value: "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/.*\\[\\(.*\\)\\].*/\\1/' | sed 's/[\\^~].*//'"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add amend alias to ~/.gitconfig
   community.general.git_config:
@@ -80,10 +80,10 @@
     value: commit --amend --no-edit
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: git
+  tags: ['git']
 
 - name: Add a setting to ~/.gitconfig
   community.general.git_config:
     name: push.autoSetupRemote
     scope: global
-  tags: git
+  tags: ['git']

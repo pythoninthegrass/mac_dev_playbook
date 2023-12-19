@@ -8,7 +8,7 @@
     mode: '0755'
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: qa
+  tags: ['qa']
 
 - name: Install starship
   ansible.builtin.shell:
@@ -16,7 +16,7 @@
     executable: /bin/sh
   become: true
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: qa
+  tags: ['qa']
 
 - name: Create starship config directory
   ansible.builtin.file:
@@ -24,7 +24,7 @@
     state: directory
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: qa
+  tags: ['qa']
 
 - name: Copy starship config
   ansible.builtin.copy:
@@ -32,4 +32,4 @@
     dest: "{{ home_dir }}/.config/starship.toml"
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
-  tags: qa
+  tags: ['qa']

@@ -9,6 +9,7 @@
     force: true
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['always']
 
 - name: Add asdf plugins
   ansible.builtin.shell: |
@@ -38,6 +39,7 @@
     - vault https://github.com/asdf-community/asdf-hashicorp.git
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['always']
 
 - name: Install latest runtime
   ansible.builtin.shell: |
@@ -68,6 +70,7 @@
     - vault
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['always']
 
 - name: Reshim runtimes
   ansible.builtin.shell: |
@@ -77,6 +80,7 @@
     executable: /bin/bash
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['always']
 
 - name: Set poetry options
   ansible.builtin.shell: |
@@ -88,3 +92,4 @@
     executable: /bin/bash
   become: false
   become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['always']
