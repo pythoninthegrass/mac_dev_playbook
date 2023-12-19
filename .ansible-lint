@@ -1,4 +1,14 @@
 ---
+profile: min # null, min, basic, moderate,safety, shared, production
+exclude_paths:
+  - .git/
+  - .github/
+  - .vscode/
+enable_list:
+  - fqcn-builtins  # opt-in
+warn_list:
+  - line-length
+  - yaml[line-length]
 skip_list:
   - command-instead-of-shell
   - experimental
@@ -8,3 +18,4 @@ skip_list:
   - risky-file-permissions
   - role-name
   - schema[meta]
+offline: true
