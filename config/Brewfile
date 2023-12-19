@@ -358,8 +358,10 @@ cask "android-platform-tools"
 cask "appcleaner"
 cask "autodmg"
 cask "basictex"
+cask "betterdisplay"
 cask "cscreen"
 cask "devutils"
+cask "dropbox"
 cask "firefox"
 cask "flux"
 cask "flycut"
@@ -383,6 +385,7 @@ cask "meetingbar"
 cask "meld"
 cask "microsoft-auto-update"
 cask "microsoft-excel"
+cask "microsoft-outlook"
 cask "microsoft-powerpoint"
 cask "microsoft-word"
 cask "mongodb-compass"
@@ -403,10 +406,9 @@ cask "session-manager-plugin"
 cask "slack"
 cask "suspicious-package"
 cask "tableplus"
-cask "teamviewer"
 cask "the-unarchiver"
 cask "ticktick"
-# cask "topnotch"
+cask "topnotch"
 cask "typora"
 cask "utm"
 cask "visual-studio-code"
@@ -421,7 +423,7 @@ mas "Color Picker", id: 641027709
 mas "Disk Speed Test", id: 425264550
 mas "Fantastical", id: 435003921
 mas "Hidden Bar", id: 1452453066
-mas "iMovie", id: 408981434
+# mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Magnet", id: 441258766
 mas "Microsoft Remote Desktop", id: 1295203466

@@ -95,6 +95,7 @@ dotfiles_files:
   - .gitignore
   - .gitconfig
 
+upgrade_homebrew: false
 homebrew_taps:
   - abridoux/formulae
   - aws/tap
@@ -128,7 +129,6 @@ homebrew_installed_packages:
   - autoconf
   - automake
   - aws-sam-cli
-  - awscli
   - bash-completion
   - bash
   - bat
@@ -246,10 +246,7 @@ homebrew_installed_packages:
   - k3d
   - k9s
   - kompose
-  - kubernetes-cli
-  - kustomize
   - lame
-  - lazydocker
   - ldns
   - leptonica
   - less
