@@ -1,90 +1,35 @@
 # code: language=ansible
 
 ---
-- hosts: localhost
-  connection: local
+- name: Get starship install script
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship_install.sh
+    mode: '0755'
   become: false
-  gather_facts: true
-  any_errors_fatal: true
-  vars:
-    os_environment:
-      - key: EDITOR
-        value: vim
-  pre_tasks:
-    - name: Set homebrew path
-      ansible.builtin.set_fact:
-        homebrew_path: /usr/local/bin/brew
-        when: ansible_architecture != "arm64"
-        become: true
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: qa
 
-    - name: Set homebrew path
-      ansible.builtin.set_fact:
-        homebrew_path: /opt/homebrew/bin
-      when: ansible_architecture == "arm64"
-      become: true
+- name: Install starship
+  ansible.builtin.shell:
+    cmd: /tmp/starship_install.sh --yes
+    executable: /bin/sh
+  become: true
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: qa
 
-    - name: Get running ansible user
-      ansible.builtin.set_fact:
-        local_user: "{{ lookup('env', 'USER') }}"
-        home_dir: "{{ lookup('env', 'HOME') }}"
-        work_dir: "{{ playbook_dir | dirname }}"
-        cacheable: true
-      delegate_to: localhost
+- name: Create starship config directory
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.config/"
+    state: directory
+  become: false
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: qa
 
-    - name: Top-level directory in project
-      ansible.builtin.shell: git rev-parse --show-toplevel
-      register: tld
-
-    - name: Set tld stdout fact
-      ansible.builtin.set_fact:
-        tld: "{{ tld.stdout }}"
-
-    - name: Install homebrew bash
-      community.general.homebrew:
-        name: bash
-        state: present
-      become: false
-      become_user: "{{ ansible_env.SUDO_USER }}"
-
-    - name: Absolute path to homebrew bash
-      ansible.builtin.shell: which bash
-      register: homebrew_bash
-
-    - name: Set homebnrew bash stdout fact
-      ansible.builtin.set_fact:
-        homebrew_bash: "{{ homebrew_bash.stdout }}"
-
-    - name: Set bash to default shell
-      ansible.builtin.shell: |
-        chsh -s "{{ homebrew_bash }}" "{{ ansible_env.SUDO_USER }}"
-      become: false
-      become_user: "{{ ansible_env.SUDO_USER }}"
-  tasks:
-    - name: Get starship install script
-      ansible.builtin.get_url:
-        url: https://starship.rs/install.sh
-        dest: /tmp/starship_install.sh
-        mode: '0755'
-      become: false
-      become_user: "{{ ansible_env.SUDO_USER }}"
-
-    - name: Install starship
-      ansible.builtin.shell:
-        cmd: /tmp/starship_install.sh --yes
-        executable: /bin/sh
-      become: true
-      become_user: "{{ ansible_env.SUDO_USER }}"
-
-    - name: Create starship config directory
-      ansible.builtin.file:
-        path: "{{ home_dir }}/.config/"
-        state: directory
-      become: false
-      become_user: "{{ ansible_env.SUDO_USER }}"
-
-    - name: Copy starship config
-      ansible.builtin.copy:
-        src: "{{ tld }}/config/starship.toml"
-        dest: "{{ home_dir }}/.config/starship.toml"
-      become: false
-      become_user: "{{ ansible_env.SUDO_USER }}"
+- name: Copy starship config
+  ansible.builtin.copy:
+    src: "{{ tld }}/config/starship.toml"
+    dest: "{{ home_dir }}/.config/starship.toml"
+  become: false
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: qa
