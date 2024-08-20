@@ -85,22 +85,16 @@
       changed_when: false
   roles:
     - role: elliotweiser.osx-command-line-tools
-    # TODO: qa
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
       become: false
       become_user: "{{ ansible_env.SUDO_USER }}"
-      # tags: ['dotfiles', 'qa']
+      tags: qa
     - role: geerlingguy.mac.mas
       when: mas_installed_apps or mas_installed_app_ids
       become: false
       become_user: "{{ ansible_env.SUDO_USER }}"
       tags: mas
-    - role: geerlingguy.mac.dock
-      when: configure_dock
-      become: true
-      become_user: "{{ ansible_env.SUDO_USER }}"
-      tags: dock
   tasks:
     - name: Apply macos homebrew tasks
       when: ansible_os_family == "Darwin"
@@ -131,6 +125,20 @@
             state: present
           loop: "{{ homebrew_cask_apps }}"
           tags: casks
+
+    # TODO: qa
+    - name: Set System Preferences name
+      set_fact:
+        system_preferences_name: "{{ 'System Settings' if ansible_distribution_major_version | int >= 13 else 'System Preferences' }}"
+      tags: dock,qa
+
+    - include_role:
+        name: geerlingguy.mac.dock
+        apply:
+          become: true
+          become_user: "{{ ansible_env.SUDO_USER }}"
+      when: configure_dock
+      tags: dock,qa
 
     - name: Run related tasks
       when: ansible_os_family == "Darwin"

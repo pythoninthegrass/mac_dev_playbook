@@ -61,24 +61,18 @@ dockitems_persist:
   - name: "TablePlus"
     path: "/Applications/TablePlus.app"
     pos: 11
-  - name: "MongoDB Compass"
-    path: "/Applications/MongoDB Compass.app"
-    pos: 12
-  - name: "RedisInsight"
-    path: "/Applications/RedisInsight.app"
-    pos: 13
   - name: "Remote Desktop"
     path: "/Applications/Remote Desktop.app"
-    pos: 14
+    pos: 12
   - name: "TickTick"
     path: "/Applications/TickTick.app"
-    pos: 15
+    pos: 13
   - name: "Calendar"
     path: "/Applications/Calendar.app"
-    pos: 16
+    pos: 14
   - name: "System Preferences"
-    path: "/Applications/System Preferences.app"
-    pos: 17
+    path: "/Applications/{{ system_preferences_name }}.app"
+    pos: 15
 
 configure_sudoers: false
 sudoers_custom_config: ''
