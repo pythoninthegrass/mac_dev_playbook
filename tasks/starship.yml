@@ -1,0 +1,35 @@
+# code: language=ansible
+
+---
+- name: Get starship install script
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship_install.sh
+    mode: '0755'
+  become: false
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['qa']
+
+- name: Install starship
+  ansible.builtin.shell:
+    cmd: /tmp/starship_install.sh --yes
+    executable: /bin/sh
+  become: true
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['qa']
+
+- name: Create starship config directory
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.config/"
+    state: directory
+  become: false
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['qa']
+
+- name: Copy starship config
+  ansible.builtin.copy:
+    src: "{{ tld }}/config/starship.toml"
+    dest: "{{ home_dir }}/.config/starship.toml"
+  become: false
+  become_user: "{{ ansible_env.SUDO_USER }}"
+  tags: ['qa']

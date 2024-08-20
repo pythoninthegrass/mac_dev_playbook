@@ -1,0 +1,15 @@
+# code: language=ansible
+
+---
+# TODO: qa
+- name: Set wallpaper for all desktops
+  vars:
+    wallpaper_dir: "{{ tld }}/static"
+    image: "{{ wallpaper_dir }}/starfield_2560x1440.jpg"
+  community.general.osx_defaults:
+    domain: com.apple.desktop
+    key: Background
+    value: "{{ image }}"
+    type: string
+    state: present
+  tags: ['wallpaper']

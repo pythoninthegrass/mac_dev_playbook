@@ -1,9 +1,12 @@
 # code: language=ansible
 
 ---
-- name: Configure host
-  hosts: all
+- name: Main playbook
+  connection: local
+  hosts: localhost
+  gather_facts: true
   vars:
+    should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
     mas_email: '{{ lookup("env", "MAS_EMAIL") }}'
     mas_password: '{{ lookup("env", "MAS_PASSWORD") }}'
   vars_files:
@@ -14,36 +17,161 @@
       with_fileglob:
         - "{{ playbook_dir }}/config.yml"
       tags: ['always']
+
+    - name: Get running ansible user
+      ansible.builtin.set_fact:
+        local_user: "{{ lookup('env', 'USER') }}"
+        home_dir: "{{ lookup('env', 'HOME') }}"
+        work_dir: "{{ playbook_dir | dirname }}"
+        cacheable: true
+      tags: ['always']
+
+    - name: Top-level directory in project
+      ansible.builtin.shell: |
+        git rev-parse --show-toplevel
+      ignore_errors: true
+      register: tld
+      tags: ['always']
+
+    - name: Set tld stdout fact
+      ansible.builtin.set_fact:
+        tld: "{{ tld.stdout | default(ansible_env.CWD) }}"
+      tags: ['always']
+
+    - name: Get brew prefix
+      ansible.builtin.shell: brew --prefix
+      register: brew_prefix
+
+    - name: Check homebrew is installed
+      ansible.builtin.stat:
+        path: "{{ brew_prefix.stdout }}/bin/brew"
+      register: homebrew_check
+
+    - name: Fail if homebrew is not installed and install_homebrew_if_missing is false
+      ansible.builtin.fail:
+        msg: |
+          Homebrew is missing... Install from http://brew.sh/
+      when:
+        - not homebrew_check.stat.exists
+
+    - name: Install homebrew bash
+      community.general.homebrew:
+        name: bash
+        state: present
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+
+    - name: Absolute path to homebrew bash
+      ansible.builtin.shell: which bash
+      register: homebrew_bash
+
+    - name: Set homebnrew bash stdout fact
+      ansible.builtin.set_fact:
+        homebrew_bash: "{{ homebrew_bash.stdout }}"
+
+    - name: Get real path to homebrew bash
+      ansible.builtin.shell: |
+        readlink -f {{ homebrew_bash }}
+      register: homebrew_bash
+
+    - name: Set homebrew bash stdout fact
+      ansible.builtin.set_fact:
+        homebrew_bash: "{{ homebrew_bash.stdout }}"
+
+    - name: Set bash to default shell
+      ansible.builtin.user:
+        name: "{{ ansible_env.SUDO_USER }}"
+        shell: "{{ homebrew_bash }}"
+      changed_when: false
   roles:
     - role: elliotweiser.osx-command-line-tools
-    - role: geerlingguy.mac.homebrew
-      tags: ['homebrew']
+    # TODO: qa
     - role: geerlingguy.dotfiles
       when: configure_dotfiles
-      tags: ['dotfiles']
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      # tags: ['dotfiles', 'qa']
     - role: geerlingguy.mac.mas
       when: mas_installed_apps or mas_installed_app_ids
-      tags: ['mas']
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      tags: mas
     - role: geerlingguy.mac.dock
       when: configure_dock
-      tags: ['dock']
+      become: true
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      tags: dock
   tasks:
-    - import_tasks: tasks/sudoers.yml
-      when: configure_sudoers
-      tags: ['sudoers']
-
-    - import_tasks: tasks/osx.yml
-      when: configure_osx
-      tags: ['osx']
-
-    - import_tasks: tasks/extra-packages.yml
-      tags: ['extra-packages']
-
-    - name: Run post-provision task files in a block.
-      tags: ['post']
+    - name: Apply macos homebrew tasks
+      when: ansible_os_family == "Darwin"
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
       block:
-        - name: Run configured post-provision ansible task files.
-          include_tasks: "{{ outer_item }}"
-          loop_control:
-            loop_var: outer_item
-          with_fileglob: "{{ post_provision_tasks | default(omit) }}"
+        - name: Installing homebrew taps
+          community.general.homebrew_tap:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_taps }}"
+          tags: taps
+
+        - name: Upgrade homebrew
+          community.general.homebrew:
+            update_homebrew: "{{ upgrade_homebrew }}"
+
+        - name: Install homebrew formulae
+          community.general.homebrew:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_installed_packages }}"
+          tags: formulae
+
+        - name: Install homebrew casks
+          community.general.homebrew_cask:
+            name: "{{ item }}"
+            state: present
+          loop: "{{ homebrew_cask_apps }}"
+          tags: casks
+
+    - name: Run related tasks
+      when: ansible_os_family == "Darwin"
+      vars:
+        hostname: "{{ lookup('env', 'HOST_NAME') | default('') }}"
+        git_user:
+          - key: user.name
+            value: pythoninthegrass
+          - key: user.email
+            value: 4097471+pythoninthegrass@users.noreply.github.com
+      become: false
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      block:
+        # TODO: QA
+        - name: Setup hostname
+          include_tasks: "{{ playbook_dir }}/tasks/hostname.yml"
+          tags: hostname
+
+        - name: Setup git
+          include_tasks: "{{ playbook_dir }}/tasks/git.yml"
+          tags: ['git']
+
+        - name: Setup starship prompt
+          include_tasks: "{{ playbook_dir }}/tasks/starship.yml"
+          tags: starship
+
+        - name: Install runtimes
+          include_tasks: "{{ playbook_dir }}/tasks/runtimes.yml"
+          tags: runtimes
+
+        - name: Set wallpaper for all desktops
+          include_tasks: "{{ playbook_dir }}/tasks/wallpaper.yml"
+          tags: wallpaper
+
+  handlers:
+    - name: Clear homebrew cache
+      community.general.homebrew:
+        name: "*"
+        state: latest
+        update_homebrew: true
+        upgrade_all: true
+      become: true
+      become_user: "{{ ansible_env.SUDO_USER }}"
+      listen: "homebrew cleanup"

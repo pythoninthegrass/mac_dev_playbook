@@ -3,62 +3,82 @@
 ---
 downloads: ~/.ansible-downloads/
 
-configure_dotfiles: true
-configure_terminal: true
-configure_osx: true
+configure_dotfiles: false
+configure_terminal: false
+configure_osx: false
 
 configure_dock: true
-dockitems_remove: []
-  - "LaunchPad"
-  - "Safari"
-  - "Messages"
-  - "Maps"
-  - "Photos"
-  - "FaceTime"
+dockitems_remove:
+  - "App Store"
+  - "Calendar"
   - "Contacts"
-  - "Reminders"
-  - "Notes"
-  - "TV"
+  - "FaceTime"
+  - "Freeform"
+  - "Launchpad"
+  - "Mail"
+  - "Maps"
+  - "Messages"
   - "Music"
-  - "Podcasts"
   - "News"
-dockitems_persist: []
+  - "Notes"
+  - "Photos"
+  - "Podcasts"
+  - "Reminders"
+  - "Safari"
+  - "System Preferences"
+  - "TV"
+dockitems_persist:
+  - name: "App Store"
+    path: "/Applications/App Store.app"
+    pos: 1
   - name: "iTerm"
     path: "/Applications/iTerm.app"
-    pos: 1
-  - name: "Mail"
-    path: "/Applications/Mail.app"
     pos: 2
+  - name: "Microsoft Outlook"
+    path: "/Applications/Microsoft Outlook.app"
+    pos: 3
   - name: "Firefox"
     path: "/Applications/Firefox.app"
-    pos: 3
+    pos: 4
   - name: "Slack"
     path: "/Applications/Slack.app"
-    pos: 4
+    pos: 5
   - name: "Typora"
     path: "/Applications/Typora.app"
-    pos: 5
+    pos: 6
   - name: "UpNote"
     path: "/Applications/UpNote.app"
-    pos: 6
+    pos: 7
   - name: "Visual Studio Code"
     path: "/Applications/Visual Studio Code.app"
-    pos: 7
+    pos: 8
   - name: "GitKraken"
     path: "/Applications/GitKraken.app"
-    pos: 8
-  - name: "TablePlus"
-    path: "/Applications/TablePlus.app"
     pos: 9
   - name: "DevUtils"
     path: "/Applications/DevUtils.app"
     pos: 10
+  - name: "TablePlus"
+    path: "/Applications/TablePlus.app"
+    pos: 11
+  - name: "MongoDB Compass"
+    path: "/Applications/MongoDB Compass.app"
+    pos: 12
+  - name: "RedisInsight"
+    path: "/Applications/RedisInsight.app"
+    pos: 13
   - name: "Remote Desktop"
     path: "/Applications/Remote Desktop.app"
-    pos: 11
+    pos: 14
+  - name: "TickTick"
+    path: "/Applications/TickTick.app"
+    pos: 15
+  - name: "Calendar"
+    path: "/Applications/Calendar.app"
+    pos: 16
   - name: "System Preferences"
     path: "/Applications/System Preferences.app"
-    pos: 12
+    pos: 17
 
 configure_sudoers: false
 sudoers_custom_config: ''
@@ -75,10 +95,32 @@ dotfiles_files:
   - .gitignore
   - .gitconfig
 
+upgrade_homebrew: false
+homebrew_taps:
+  - abridoux/formulae
+  - aws/tap
+  - bell-sw/liberica
+  - buo/cask-upgrade
+  - cirruslabs/cli
+  - cue-lang/tap
+  - d12frosted/emacs-plus
+  - eth-p/software
+  - goreleaser/tap
+  - heroku/brew
+  - homebrew/bundle
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
+  - homebrew/services
+  - jamf/tap
+  - mike-engel/jwt-cli
+  - raggi/ale
+  - snyk/tap
+  - timsutton/formulae
+  - trufflesecurity/trufflehog
+  - zaquestion/tap
+
 homebrew_installed_packages:
   - afflib
-  - ansible-lint
-  - ansible
   - ant
   - aom
   - arm-linux-gnueabihf-binutils
@@ -87,7 +129,6 @@ homebrew_installed_packages:
   - autoconf
   - automake
   - aws-sam-cli
-  - awscli
   - bash-completion
   - bash
   - bat
@@ -205,10 +246,7 @@ homebrew_installed_packages:
   - k3d
   - k9s
   - kompose
-  - kubernetes-cli
-  - kustomize
   - lame
-  - lazydocker
   - ldns
   - leptonica
   - less
@@ -410,29 +448,6 @@ homebrew_installed_packages:
   - snyk/tap/snyk
   - trufflesecurity/trufflehog/trufflehog
 
-homebrew_taps:
-  - abridoux/formulae
-  - aws/tap
-  - bell-sw/liberica
-  - buo/cask-upgrade
-  - cirruslabs/cli
-  - cue-lang/tap
-  - d12frosted/emacs-plus
-  - eth-p/software
-  - goreleaser/tap
-  - heroku/brew
-  - homebrew/bundle
-  - homebrew/cask-fonts
-  - homebrew/cask-versions
-  - homebrew/services
-  - jamf/tap
-  - mike-engel/jwt-cli
-  - raggi/ale
-  - snyk/tap
-  - timsutton/formulae
-  - trufflesecurity/trufflehog
-  - zaquestion/tap
-
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - alacritty
@@ -459,6 +474,7 @@ homebrew_cask_apps:
   - gitkraken
   - google-cloud-sdk
   - google-drive
+  - httpie
   - iina
   - imageoptim
   - iterm2
@@ -478,21 +494,18 @@ homebrew_cask_apps:
   - omnidisksweeper
   - orbstack
   - packages
-  - paw
   - proxyman
   - qlmarkdown
   - qlvideo
   - qsync-client
   - quicklook-csv
   - quicklook-json
+  - redisinsight
   - rustdesk
   - session-manager-plugin
   - slack
-  - spotify
-  - steam
   - suspicious-package
   - tableplus
-  - teamviewer
   - the-unarchiver
   - ticktick
   - topnotch
@@ -505,69 +518,138 @@ homebrew_cask_apps:
   - xquartz
   - zoom
 
-mas_email: ""
-mas_password: ""
 mas_upgrade_all_apps: true
 mas_installed_apps:
-  - { id: 937984704, name: "Amphetamine" }
-  - { id: 1037126344, name: "Apple Configurator" }
-  - { id: 641027709, name: "Color Picker" }
-  - { id: 425264550, name: "Disk Speed Test" }
-  - { id: 1452453066, name: "Hidden Bar" }
-  - { id: 409183694, name: "Keynote" }
-  - { id: 441258766, name: "Magnet" }
-  - { id: 1295203466, name: "Microsoft Remote Desktop" }
-  - { id: 409203825, name: "Numbers" }
-  - { id: 409201541, name: "Pages" }
-  - { id: 885120167, name: "Particulars" }
-  - { id: 1289583905, name: "Pixelmator Pro" }
-  - { id: 1318160354, name: "Reigns: Her Majesty" }
-  - { id: 409907375, name: "Remote Desktop" }
-  - { id: 1073245945, name: "StatsCenter" }
-  - { id: 1528890965, name: "TextSniper" }
-  - { id: 1398373917, name: "UpNote" }
-  - { id: 497799835, name: "Xcode" }
+  - 937984704   # Amphetamine
+  - 1037126344  # Apple Configurator
+  - 425264550   # Blackmagic Disk Speed Test
+  - 641027709   # Color Picker
+  - 1452453066  # Hidden Bar
+  - 409183694   # Keynote
+  - 441258766   # Magnet
+  - 1295203466  # Microsoft Remote Desktop
+  - 409203825   # Numbers
+  - 409201541   # Pages
+  - 885120167   # Particulars
+  - 1289583905  # Pixelmator Pro
+  - 1318160354  # Reigns: Her Majesty
+  - 409907375   # Remote Desktop
+  - 1073245945  # StatsCenter
+  - 1528890965  # TextSniper
+  - 1398373917  # UpNote
+  - 497799835   # Xcode
 
-osx_script: "~/.osx --no-restart"
+# osx_script: "~/.osx --no-restart"
 
 pip_packages:
-  - { name: "ansible-core", version: "2.14.4", state: "present" }
-  - { name: "ansible-lint", version: "6.14.3", state: "present" }
-  - { name: "ansible", version: "7.3.0", state: "present" }
-  - { name: "appnope", version: "0.1.3", state: "present" }
-  - { name: "asttokens", version: "2.1.0", state: "present" }
-  - { name: "backcall", version: "0.2.0", state: "present" }
-  - { name: "colorama", version: "0.4.6", state: "present" }
-  - { name: "commonmark", version: "0.9.1", state: "present" }
-  - { name: "cryptography", version: "40.0.1", state: "present" }
-  - { name: "filelock", version: "3.10.7", state: "present" }
-  - { name: "decorator", version: "5.1.1", state: "present" }
-  - { name: "executing", version: "1.2.0", state: "present" }
-  - { name: "icecream", version: "2.1.3", state: "present" }
-  - { name: "ipython", version: "8.11.0", state: "present" }
-  - { name: "jedi", version: "0.18.1", state: "present" }
-  - { name: "jinja2", version: "3.1.2", state: "present" }
-  - { name: "matplotlib-inline", version: "0.1.6", state: "present" }
-  - { name: "numpy", version: "1.23.4", state: "present" }
-  - { name: "pandas", version: "1.5.1", state: "present" }
-  - { name: "parso", version: "0.8.3", state: "present" }
-  - { name: "pathvalidate", version: "2.5.2", state: "present" }
-  - { name: "pexpect", version: "4.8.0", state: "present" }
-  - { name: "pickleshare", version: "0.7.5", state: "present" }
-  - { name: "pipx", version: "1.2.0", state: "present" }
-  - { name: "prompt-toolkit", version: "3.0.32", state: "present" }
-  - { name: "ptyprocess", version: "0.7.0", state: "present" }
-  - { name: "pure-eval", version: "0.2.2", state: "present" }
-  - { name: "pygments", version: "2.13.0", state: "present" }
-  - { name: "python-dateutil", version: "2.8.2", state: "present" }
-  - { name: "pytz", version: "2022.6", state: "present" }
-  - { name: "pyyaml", version: "6.0", state: "present" }
-  - { name: "rich", version: "13.3.3", state: "present" }
-  - { name: "six", version: "1.16.0", state: "present" }
-  - { name: "stack-data", version: "0.6.0", state: "present" }
-  - { name: "traitlets", version: "5.5.0", state: "present" }
-  - { name: "wcwidth", version: "0.2.5", state: "present" }
-  - { name: "yamllint", version: "1.30.0", state: "present" }
+  - name: "ansible-lint"
+    version: "6.14.3"
+    state: "present"
+  - name: "ansible"
+    version: "7.3.0"
+    state: "present"
+  - name: "appnope"
+    version: "0.1.3"
+    state: "present"
+  - name: "asttokens"
+    version: "2.1.0"
+    state: "present"
+  - name: "backcall"
+    version: "0.2.0"
+    state: "present"
+  - name: "colorama"
+    version: "0.4.6"
+    state: "present"
+  - name: "commonmark"
+    version: "0.9.1"
+    state: "present"
+  - name: "cryptography"
+    version: "40.0.1"
+    state: "present"
+  - name: "filelock"
+    version: "3.10.7"
+    state: "present"
+  - name: "decorator"
+    version: "5.1.1"
+    state: "present"
+  - name: "executing"
+    version: "1.2.0"
+    state: "present"
+  - name: "icecream"
+    version: "2.1.3"
+    state: "present"
+  - name: "ipython"
+    version: "8.11.0"
+    state: "present"
+  - name: "jedi"
+    version: "0.18.1"
+    state: "present"
+  - name: "jinja2"
+    version: "3.1.2"
+    state: "present"
+  - name: "matplotlib-inline"
+    version: "0.1.6"
+    state: "present"
+  - name: "numpy"
+    version: "1.23.4"
+    state: "present"
+  - name: "pandas"
+    version: "1.5.1"
+    state: "present"
+  - name: "parso"
+    version: "0.8.3"
+    state: "present"
+  - name: "pathvalidate"
+    version: "2.5.2"
+    state: "present"
+  - name: "pexpect"
+    version: "4.8.0"
+    state: "present"
+  - name: "pickleshare"
+    version: "0.7.5"
+    state: "present"
+  - name: "pipx"
+    version: "1.2.0"
+    state: "present"
+  - name: "prompt-toolkit"
+    version: "3.0.32"
+    state: "present"
+  - name: "ptyprocess"
+    version: "0.7.0"
+    state: "present"
+  - name: "pure-eval"
+    version: "0.2.2"
+    state: "present"
+  - name: "pygments"
+    version: "2.13.0"
+    state: "present"
+  - name: "python-dateutil"
+    version: "2.8.2"
+    state: "present"
+  - name: "pytz"
+    version: "2022.6"
+    state: "present"
+  - name: "pyyaml"
+    version: "6.0"
+    state: "present"
+  - name: "rich"
+    version: "13.3.3"
+    state: "present"
+  - name: "six"
+    version: "1.16.0"
+    state: "present"
+  - name: "stack-data"
+    version: "0.6.0"
+    state: "present"
+  - name: "traitlets"
+    version: "5.5.0"
+    state: "present"
+  - name: "wcwidth"
+    version: "0.2.5"
+    state: "present"
+  - name: "yamllint"
+    version: "1.30.0"
+    state: "present"
 
 # Glob pattern to ansible task files to run after all other tasks are finished.
 post_provision_tasks: []

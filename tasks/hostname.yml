@@ -1,0 +1,8 @@
+# code: language=ansible
+
+---
+- name: Set hostname
+  ansible.builtin.hostname:
+    # read hostname env var from main.yml
+    name: "{{ hostname }}"
+  tags: hostname
