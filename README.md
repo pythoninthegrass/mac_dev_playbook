@@ -14,9 +14,9 @@ ansible-galaxy install -r requirements.yml
 # * become (sudo)
 # * askpass
 # * tags: foo,bar
-# * verbose
 # * limit to group/single host
-ansible-playbook main.yml -b -K --tags qa -vvv --limit 'servers'
+# * verbose
+ansible-playbook main.yml -b -K --tags qa --limit '127.0.0.1' -v
 ```
 
 ## TODO
