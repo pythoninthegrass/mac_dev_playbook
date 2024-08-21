@@ -105,13 +105,17 @@ devbox: brew ## install devbox
 shellrc: ## append shellrc
 	@echo "${YELLOW}Appending shellrc...${RESET}"
 	@if [ "$(shell echo $$SHELL)" = "/bin/zsh" ]; then \
-		cp ~/.zshrc ~/.zshrc_$$(date +%Y%m%d%H%M%S).bak; \
-		echo 'export PATH="$(PATH)"' > ~/.zshrc; \
-		echo 'eval "$$(brew shellenv)"' >> ~/.zshrc; \
+		if [ -f $(HOME)/.zshrc ]; then \
+			cp $(HOME)/.zshrc $(HOME)/.zshrc_$$(date +%Y%m%d%H%M%S).bak; \
+		fi; \
+		echo 'export PATH="$(PATH)"' > $(HOME)/.zshrc; \
+		echo 'eval "$$(brew shellenv)"' >> $(HOME)/.zshrc; \
 	else \
-		cp ~/.bashrc ~/.bashrc_$$(date +%Y%m%d%H%M%S).bak; \
-		echo 'export PATH="$(PATH)"' > ~/.bashrc; \
-		echo 'eval "$$(brew shellenv)"' >> ~/.bashrc; \
+		if [ -f $(HOME)/.bashrc ]; then \
+			cp $(HOME)/.bashrc $(HOME)/.bashrc_$$(date +%Y%m%d%H%M%S).bak; \
+		fi; \
+		echo 'export PATH="$(PATH)"' > $(HOME)/.bashrc; \
+		echo 'eval "$$(brew shellenv)"' >> $(HOME)/.bashrc; \
 	fi
 	@echo "${GREEN}Please restart your shell...${RESET}"
 
