@@ -65,7 +65,7 @@
       ansible.builtin.shell: which bash
       register: homebrew_bash
 
-    - name: Set homebnrew bash stdout fact
+    - name: Set homebrew bash stdout fact
       ansible.builtin.set_fact:
         homebrew_bash: "{{ homebrew_bash.stdout }}"
 
@@ -125,6 +125,7 @@
             state: present
           loop: "{{ homebrew_cask_apps }}"
           tags: casks
+      tags: brew
 
     # TODO: qa
     - name: Set System Preferences name
