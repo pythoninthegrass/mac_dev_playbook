@@ -2,8 +2,7 @@
 
 ---
 - name: Main playbook
-  connection: local
-  hosts: localhost
+  hosts: all
   gather_facts: true
   vars:
     should_be_root: "{{ true if ansible_pkg_mgr != 'brew' else false }}"
@@ -125,7 +124,6 @@
             state: present
           loop: "{{ homebrew_cask_apps }}"
           tags: casks
-      tags: brew
 
     # TODO: qa
     - name: Set System Preferences name
